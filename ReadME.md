@@ -1,4 +1,4 @@
-# 一人一机，从 Windows 7 开始安装 Win7+ArchLinux 双系统（MBR）
+...# 一人一机，从 Windows 7 开始安装 Win7+ArchLinux 双系统（MBR）
 
 ## 故事的缘起：万恶 2345
 
@@ -250,7 +250,7 @@ wifi-menu
 也可以使用 USB 绑定上网，当然内核驱动一般都默认弄好了的。（QEMU 之类的网桥设置比较麻烦，不过 Arch 的 USB 绑定还好）
 
 ```bash
-ip linklinux_battery
+ip link
 
 ip link set enp0s20u2 up
 dhcpcd enp0s20u2
@@ -312,7 +312,7 @@ mkswap -L arch /dev/sda$SWAP
 mount /dev/sda$ROOT /mnt/root/
 mount /dev/sda$TMP /mnt/root/tmp/
 mount /dev/sda$ESP /mnt/root/boot/efi
-swapon /dev/sda$SWAPlinux_battery
+swapon /dev/sda$SWAP
 
 ```
 
@@ -349,8 +349,7 @@ printf `expr $max_brig / 2` >/sys/class/backlight/intel_backlight/brightness
 要查看电池剩余电量，都可以通过 sysfs 暴露的接口读取：
 
 ```bash
-where linux_battlinux_battery
-ery
+where linux_battery
 cat /sys/class/power_supply/BAT0/capacity
 ```
 
