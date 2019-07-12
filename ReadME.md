@@ -437,7 +437,11 @@ pacman -Qt <pkg>
 
 不会的话 `--help` 就可以了，非常方便的（比如 `pacman -Sh`）
 
-`pacman -Qgq` 经常输出到 `xarg` 使用，例如：`pacman -Qt \`pacman -Qgq base |xargs\``
+`pacman -Qgq` 经常输出到 `xarg` 使用，例如：
+
+```bash
+pacman -Qt `pacman -Qgq base |xargs`
+```
 
 我们要装的自然是 XFCE4、Firefox、中文字体、iBus/RIME 什么的
 
@@ -463,7 +467,7 @@ python2 -mensurepip --user
 ```bash
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
+export XMODIFIERS="@im=ibus"
 ```
 
 然后
@@ -531,6 +535,10 @@ pacman -Ss grub-btrfs breeze-grub os-prober
 grub-install --target=i386-pc --install-modules=all /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
+
+假若你需要安装 nVidia drivers，请在下载好驱动安装程序后在 `/etc/defaults/grub` 里指定内核参数 `modprobe.blacklist=nouveau` （或者 `nouveau.modset=0`）
+
+假如你使用 GNOME 并且想禁用 nightlight 特性，`gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled false`，参考[这篇文章](https://blog.csdn.net/luo3300612/article/details/83281029#Manjaro_2)
 
 ### 0x03 享受新系统吧
 
