@@ -273,7 +273,7 @@ timedatectl set-ntp true
 
 之前分区已经在 Windows 下划分好了，只是还没有格式化（创建文件系统）
 
-现在使用 `parted` 和 `fdisk` 查看分区并且镜像格式化和挂载。
+现在使用 `parted` (`select /dev/sda; print all`) 和 `fdisk` 查看分区并且镜像格式化和挂载。
 
 ```bash
 mkdir -p /mnt/root
@@ -295,7 +295,7 @@ fdisk -l /dev/sda
 ```
 
 接下来创建文件系统
-
+在安装过程中，要改变屏幕亮度可以 
 ```bash
 mkfs.btrfs -d single -L root /dev/sda$ROOT
 mkfs.btrfs -d single -L temporatory /dev/sda$TMP
@@ -316,17 +316,17 @@ swapon /dev/sda$SWAP
 Linux 继承了 UNIX 之大统，一切皆文件。这意味着系统配置的任务都可以使用人类可读可写的形式完成（当然这和高性能配置不冲突，只是额外提供了通用的人机接口而已）。
 
 Linux 里有很多伪·文件系统，比如 `/proc` （访问进程和系统内核状态信息）就是 `proc` 文件系统、`/sys` （访问外设和硬件平台信息）就是 `sysfs`、`/dev` （访问内部集成设备信息）就是 `devtmpfs`，
-此外还有 `devpts`, `/net/tun`, `/dev/shm`, `/dev/tty`, `binfmt_misc` 等特殊文件什么的，一切文件系统挂载到 `/` 树下，形成了 UNIX 风格的文件信息管理结构。
+此外还有 `devpts`, `/net/tun`, `/dev/shm`, `/dev/tty`, `/dev/pty`, `/dev/pts`, `binfmt_misc` 等特殊文件什么的，一切文件系统挂载到 `/` 树下，形成了 UNIX 风格的文件信息管理结构。
 
-和 UNIX 的各种 Shell 解释器结合，就形成了完美的『字符』式系统管理编程能力，强大的组合性。
+和 UNIX 的各种 Shell 解释器结合，就形成了完美的『一切皆字符串』式系统管理编程能力，强大的组合性。
 
-文件系统提供了程序机器代码的保存、配置文件的保存、C 接口头文件等等的保存功能，他们对维持系统正常运行有着重大的意义。
+文件系统提供了程序机器代码的保存、配置文件的保存、C 接口头文件等等的保存功能，它们对维持系统正常运行有着重大的意义。
 
-创建文件系统，是指创建为 Linux Kernel 所用的静态文件系统，一般是 Ext4、Btrfs、XFS 等格式的。
+创建文件系统，是指创建为 Linux Kernel 所用的静态文件树，一般是 Ext4、Btrfs、XFS 等文件系统格式的。
 
 Arch 里，只需要安装 `base` package group 里的一些软件包即可安装 ArchLinux 的 Root FS 了。
 
-先 `nano /etc/pacman.d/mirrorlist` 删了（按 <kbd>Ctr</kbd>+<kbd>K</kbd> 可删掉一行）不需要使用的软件镜像，留下少数速度可以的，比如 USTC。
+先 `nano /etc/pacman.d/mirrorlist` 删了（按 <kbd>Ctr</kbd>+<kbd>K</kbd> 可删掉一行）不需要使用的软件镜像，留下少数速度可以的，比如 USTC ArchLinux 镜像。
 
 `pacstrap` 脚本的参数不多，支持 `pacman` 的命令参数，除此之外，还有 `-c` 在本地保存包缓存 `-G` 不自动设置密钥环、`-M` 不自动设置源镜像、`-i` 交互确认安装等。 
 
@@ -334,7 +334,7 @@ Arch 里，只需要安装 `base` package group 里的一些软件包即可安�
 pacstrap /mnt/root/ base base-devel btrfs-progs
 ```
 
-在安装过程中，要改变屏幕亮度可以 <kbd>Alt</kbd>+<kbd>RightArrow</kbd> 或 <kbd>F2</kbd> 切换 vconsole 登录 `root`，这么操作
+在安装过程中，要改变屏幕亮度可以 <kbd>Alt</kbd>+(<kbd>RightArrow</kbd> 或 <kbd>F2</kbd>) 切换 vconsole 登录 `root`，这么操作
 
 ```bash
 read max_brig </sys/class/backlight/intel_backlight/max_brightness
