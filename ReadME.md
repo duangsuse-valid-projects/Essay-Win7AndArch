@@ -4,7 +4,7 @@
 
 这几天回老家，收到修好的旧笔记本电脑，却发现硬盘被偷换成 128G 的 SSD 了... （修了一风扇，可惜没扇点风又坏惹...）
 
-原有一 OpenSUSE，荡然无存。只剩下一个塞满了 2345 各种『良心』产品（呕吐）（比如软件中心啊、安全中心啦、浏览器啦... 在此不赘述了）的盗版 Microsoft Windows 7 旗舰版...
+原有一 OpenSUSE，荡然无存。只剩下一个塞满了 2345 各种『良心』产品（呕吐）~~A 股狂上用户知名荣誉公司~~（比如软件中心啊、安全中心啦、浏览器啦... 在此不赘述了）的盗版 Microsoft Windows 7 旗舰版...
 
 我实在无力和 2345 这种老牌『知名』软件战斗，而且实在被什么头条大新闻、开机速度恶心到不行... 何况我即使用盗版也完全可以去 MSDN 下 VL 版 WIM 镜像
 然后通过 Windows 企业授权的 KMS 服务器，`slmgr/skms` 一句激活。反正我不是特别依赖 Windows。（这句话好伤人，跑）
@@ -89,16 +89,16 @@ ArchISO 是一个神奇的镜像，因为它轻巧，但是又五脏俱全。
 
 + LABEL=ARCH_201907
   + ARCH
-    + X86_64
+    + X86_64/
     + PKGLIST_X86_64.TXT
     + BOOT
       + INTEL_UCODE.IMG
       + MEMTEST
-      + SYSLINUX
+      + SYSLINUX/
       + X86_64
         + VMLINUZ
         + ARCHISO.IMG
-  + ISOLINUX
+  + ISOLINUX/
   + EFI
     + BOOT
       + BOOTX64.EFI
@@ -161,7 +161,7 @@ boot
 想象一下 `BOOT` 只是最小的启动环境而已，它提供了 Linux Kernel 但只是 Live 的一小部分，它还需要寻找自己的根(rootfs) 来决定自己到底是什么。
 
 `BaseDir` 是有默认值的，但是 `Label` 必须得填写，不然你可以在 emergency shell 里 `grep "Waiting" /init_functions` 看看，会卡在等待 ISO 镜像分区挂载那里
-（而且你不能靠手动 `mount -t iso9660 -o ro arch.iso /new_root` 解决...）。
+（而且你不能靠手动 `mount -t iso9660 -o ro arch.iso /mnt/archiso; mount /mnt/archiso/ARCH/X86_64/AIRROOTFS.SFS /new_root` 解决...）。
 
 既然不是传统的『外接存储设备』的话，也只好自己帮忙挂载 ISO 卷了。
 
@@ -176,7 +176,7 @@ ArchISO 的处理方案很简单，虽然他们没有直接说。
 同时也就不能达到目的了，所以内核参数必须指定。
 
 这里有一个骚操作，就是我还不知道是这样的时候（`vi init_functions` 看了好久...）
-误打误撞 `ln -s -f /dev/loop0 /dev/disk/by-label/ARCH20190701` 把 `/dev/loop0` 删掉了，无法挂载新的块设备...
+误打误撞 `ln -s -f /dev/disk/by-label/ARCH20190701 /dev/loop0` 把 `/dev/loop0` 删掉了，无法挂载新的块设备...
 
 最后我 `cd /dev; mknod -m 660 loop0 b 7 0` 才恢复了 `loop0`...
 
