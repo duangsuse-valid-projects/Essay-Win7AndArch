@@ -1,4 +1,4 @@
-...# 一人一机，从 Windows 7 开始安装 Win7+ArchLinux 双系统（MBR）
+# 一人一机，从 Windows 7 开始安装 Win7+ArchLinux 双系统（MBR）
 
 ## 故事的缘起：万恶 2345
 
