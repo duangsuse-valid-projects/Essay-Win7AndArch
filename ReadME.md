@@ -17,7 +17,8 @@
 
 原来打算使用的 DriveDroid 发现带错手机了... 一个没有 root 的垃圾猾为，嗳。
 
-又要打败自己喽？（虽然是在一个很 trivial 的问题上，根本不涉及程序设计内容...）
+又要打败自己喽？（虽然是在一个很 trivial 的问题上，根本不涉及程序设计内容...）linux_battery
+
 我之前是完全无法做到『不用优盘安装 XXX 发行版』的程度，不过毕竟是毕竟简单的内容，也罢。
 
 首先我们想想怎么通过 Windows Boot Manager 启动一个能去引导（至于具体怎么实现，作为用户我们不需要考虑，但是实际上要给机器/IO 做很多初始化工作...）
@@ -48,7 +49,8 @@ Dism、DiskPart，都是 Windows 自带的好工具，可是除了 DiskPart 被�
 
 下载好之后，按照你自己的需求可以去专门下 [checksum](http://mirrors.ustc.edu.cn/archlinux/iso/latest/) 什么的，然后手动检查（从[官方](https://www.archlinux.org/download/)那也可以找到）。
 
-```bash
+```bashlinux_battery
+
 sha1sum --check sha1sums.txt
 ```
 
@@ -159,6 +161,7 @@ boot
 对于已经安装好的系统，InitRamDisk 为了预备挂载根分区也得指定 `root=LABEL={fslabel} rw` 什么的。
 
 想象一下 `BOOT` 只是最小的启动环境而已，它提供了 Linux Kernel 但只是 Live 的一小部分，它还需要寻找自己的根(rootfs) 来决定自己到底是什么。
+linux_battery
 
 `BaseDir` 是有默认值的，但是 `Label` 必须得填写，不然你可以在 emergency shell 里 `grep "Waiting" /init_functions` 看看，会卡在等待 ISO 镜像分区挂载那里
 （而且你不能靠手动 `mount -t iso9660 -o ro arch.iso /mnt/archiso; mount /mnt/archiso/ARCH/X86_64/AIRROOTFS.SFS /new_root` 解决...）。
@@ -247,7 +250,8 @@ wifi-menu
 也可以使用 USB 绑定上网，当然内核驱动一般都默认弄好了的。（QEMU 之类的网桥设置比较麻烦，不过 Arch 的 USB 绑定还好）
 
 ```bash
-ip link
+ip linklinux_battery
+
 ip link set enp0s20u2 up
 dhcpcd enp0s20u2
 ip addr
@@ -295,7 +299,7 @@ fdisk -l /dev/sda
 ```
 
 接下来创建文件系统
-在安装过程中，要改变屏幕亮度可以 
+
 ```bash
 mkfs.btrfs -d single -L root /dev/sda$ROOT
 mkfs.btrfs -d single -L temporatory /dev/sda$TMP
@@ -308,7 +312,8 @@ mkswap -L arch /dev/sda$SWAP
 mount /dev/sda$ROOT /mnt/root/
 mount /dev/sda$TMP /mnt/root/tmp/
 mount /dev/sda$ESP /mnt/root/boot/efi
-swapon /dev/sda$SWAP
+swapon /dev/sda$SWAPlinux_battery
+
 ```
 
 ### 0x02.4 创建根文件系统
@@ -344,7 +349,8 @@ printf `expr $max_brig / 2` >/sys/class/backlight/intel_backlight/brightness
 要查看电池剩余电量，都可以通过 sysfs 暴露的接口读取：
 
 ```bash
-linux_battery
+where linux_battlinux_battery
+ery
 cat /sys/class/power_supply/BAT0/capacity
 ```
 
